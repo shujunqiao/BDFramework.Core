@@ -45,7 +45,7 @@ namespace BDFramework.UFlux
                 {
                     var sourceProp = sourceList[i] as PropsBase;
                     //创建component实例
-                    var com = Activator.CreateInstance(sourceProp.ComponentType) as IUFluxComponent;
+                    var com = Activator.CreateInstance(sourceProp.ComponentType) as IComponent;
                     if (com != null)
                     {
                         if (com.IsLoad) //同步加载

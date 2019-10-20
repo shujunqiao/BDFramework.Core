@@ -17,7 +17,7 @@ namespace BDFramework.UFlux
         /// </summary>
         /// <param name="name"></param>
         /// <param name="obj"></param>
-        private UIMessage(Enum name, object obj)
+        public UIMessage(Enum name, object obj)
         {
             this.Name = name;
             this.Data = obj;

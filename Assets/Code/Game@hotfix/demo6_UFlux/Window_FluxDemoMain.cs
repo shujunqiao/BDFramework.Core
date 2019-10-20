@@ -20,6 +20,8 @@ namespace Code.Game.demo6_UFlux
 
         [TransformPath("btn_03")] 
         private Button btn_03;
+        [TransformPath("btn_04")] 
+        private Button btn_04;
         public override void Init()
         {
             base.Init();
@@ -43,14 +45,20 @@ namespace Code.Game.demo6_UFlux
             btn_02.onClick.AddListener(() =>
             {
                 Debug.Log("Flux demo2,点击这里追踪代码!");
-                UIManager.Inst.LoadWindows(UFluxWindowEnum.UFluxTest002);
+                UIManager.Inst.LoadWindows(UFluxWindowEnum.Test002);
             });
-            
+            //3.自定义逻辑注册
             btn_03.onClick.AddListener(() =>
             {
-                UIManager.Inst.LoadWindows(UFluxWindowEnum.UFluxTest005);
+                Debug.Log("Flux demo3,点击这里追踪代码!");
+                UIManager.Inst.LoadWindows(UFluxWindowEnum.Test003);
             });
-            
+            //4.窗口,子窗口
+            btn_04.onClick.AddListener(() =>
+            {
+                Debug.Log("Flux demo4,点击这里追踪代码!");
+                UIManager.Inst.LoadWindows(UFluxWindowEnum.Test004);
+            });
         }
     }
 }

@@ -3,8 +3,8 @@
     public enum UFluxWindowEnum
     {
         UFluxDemoMain=0,
-        UFluxTest002,
-        UFluxTest003,
-        UFluxTest005,
+        Test002,
+        Test003,
+        Test004,
     }
 }

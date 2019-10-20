@@ -5,7 +5,7 @@ using UnityEngine.Experimental.Rendering;
 
 namespace BDFramework.UFlux
 {
-    public interface IUFluxComponent
+    public interface IComponent
     {
         Transform Transform { get; }
 

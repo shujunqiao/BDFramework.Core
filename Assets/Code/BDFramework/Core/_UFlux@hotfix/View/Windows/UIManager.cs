@@ -73,7 +73,7 @@ namespace BDFramework.UFlux
 
                 if (windowMap.ContainsKey(index))
                 {
-                    var uvalue = windowMap[index] as IUFluxComponent;
+                    var uvalue = windowMap[index] as IComponent;
                     if (uvalue.IsLoad)
                     {
                         BDebug.Log("已经加载过并未卸载" + index, "red");
@@ -82,7 +82,7 @@ namespace BDFramework.UFlux
                 else
                 {
                     //创建ui
-                    var window = CreateWindow(index) as IUFluxComponent;
+                    var window = CreateWindow(index) as IComponent;
                     if (window == null)
                     {
                         BDebug.Log("不存在UI:" + index, "red");
@@ -115,7 +115,7 @@ namespace BDFramework.UFlux
                 var index = i.GetHashCode();
                 if (windowMap.ContainsKey(index))
                 {
-                    var uvalue = windowMap[index] as IUFluxComponent;
+                    var uvalue = windowMap[index] as IComponent;
                     if (uvalue.IsLoad)
                     {
                         Debug.LogError("已经加载过并未卸载" + index);
@@ -137,7 +137,7 @@ namespace BDFramework.UFlux
                     else
                     {
                         windowMap[index] = win;
-                        var com = win as IUFluxComponent;
+                        var com = win as IComponent;
                         //开始窗口加载
                         com.AsyncLoad(() =>
                         {
@@ -192,7 +192,7 @@ namespace BDFramework.UFlux
                 var index = i.GetHashCode();
                 if (windowMap.ContainsKey(index))
                 {
-                    var winCom = windowMap[index] as IUFluxComponent;
+                    var winCom = windowMap[index] as IComponent;
                     winCom.Close();
                     winCom.Destroy();
                     windowMap.Remove(index);
@@ -212,7 +212,7 @@ namespace BDFramework.UFlux
         {
             foreach (var v in this.windowMap.Values)
             {
-                var vcom = v as IUFluxComponent;
+                var vcom = v as IComponent;
                 vcom.Close();
                 vcom.Destroy();
             }
@@ -231,7 +231,7 @@ namespace BDFramework.UFlux
             int uiIndex = index.GetHashCode();
             if (windowMap.ContainsKey(uiIndex))
             {
-                var v = windowMap[uiIndex] as IUFluxComponent;
+                var v = windowMap[uiIndex] as IComponent;
                 if (!v.IsOpen && v.IsLoad)
                 {
                     switch (layer)
@@ -282,7 +282,7 @@ namespace BDFramework.UFlux
             var uiIndex = index.GetHashCode();
             if (windowMap.ContainsKey(uiIndex))
             {
-                var v = windowMap[uiIndex] as IUFluxComponent;
+                var v = windowMap[uiIndex] as IComponent;
                 if (v.IsOpen && v.IsLoad)
                 {
                     v.Close();
@@ -305,9 +305,9 @@ namespace BDFramework.UFlux
         /// </summary>
         /// <param name="uiIndex"></param>
         /// <param name="message"></param>
-        public void SendMessage(int index, UIMessage message)
+        public void SendMessage(Enum index, UIMessage message)
         {
-            var uiIndex = index;
+            var uiIndex = index.GetHashCode();
             if (windowMap.ContainsKey(uiIndex))
             {
                 var ui = windowMap[uiIndex];

@@ -8,12 +8,12 @@ namespace BDFramework.UI.Demo_ScreenRect
     public class DemoScrollRect : ScrollRect
     {
         
-        public List<IUFluxComponent> Contents = new List<IUFluxComponent>();
+        public List<IComponent> Contents = new List<IComponent>();
 
         /// <summary>
         /// 添加item
         /// </summary>
-        public void AddItem(IUFluxComponent component)
+        public void AddItem(IComponent component)
         {
             component.Transform.SetParent(this.content, false);
             this.Contents.Add(component);
@@ -24,7 +24,7 @@ namespace BDFramework.UI.Demo_ScreenRect
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public IUFluxComponent GetItem(int index)
+        public IComponent GetItem(int index)
         {
             if (index < Contents.Count)
             {

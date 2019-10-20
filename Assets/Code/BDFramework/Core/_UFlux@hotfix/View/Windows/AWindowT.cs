@@ -4,6 +4,7 @@ using System.Reflection;
 using BDFramework.UFlux.Reducer;
 using BDFramework.UFlux.View.Props;
 using ILRuntime.Runtime;
+using UnityEngine;
 
 namespace BDFramework.UFlux
 {
@@ -12,14 +13,31 @@ namespace BDFramework.UFlux
     /// 不带Flux Store
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class AWindow<T> : Component<T>, IWindow where T : PropsBase, new()
+    public class AWindow<T> : Component<T>, IWindow ,IUIMessage where T : PropsBase, new()
     {
         public AWindow(string path) : base(path)
         {
             RegisterActions();
         }
 
+        public AWindow(Transform transform) : base(transform)
+        {
+            RegisterActions();
+        }
+
+
+        /// <summary>
+        /// 获取Props
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <exception cref="NotImplementedException"></exception>
+        public T1 GetProps<T1>() where T1 : PropsBase, new()
+        {
+            return this.Props as T1;
+        }
+
         #region UIMessage 
+
         /// <summary>
         /// Action 回调表
         /// </summary>
@@ -52,6 +70,7 @@ namespace BDFramework.UFlux
             }
         }
 
+
         /// <summary>
         /// 更新UI使用的数据
         /// </summary>
@@ -65,6 +84,48 @@ namespace BDFramework.UFlux
             {
                 action(message);
             }
+            //所有的消息会被派发给子窗口
+            if (subWindowsMap.Count > 0)
+            {
+                foreach (var value in subWindowsMap.Values)
+                {
+                    var uimassage = value as IUIMessage;
+                    if (uimassage != null)
+                    {
+                        uimassage.SendMessage(message);
+                    }
+                }
+            }
+            
+        }
+
+        #endregion
+
+        #region 子窗口
+
+        protected Dictionary<Enum, IWindow> subWindowsMap = new Dictionary<Enum, IWindow>();
+
+        /// <summary>
+        /// 注册窗口
+        /// </summary>
+        /// <param name="enum"></param>
+        /// <param name="win"></param>
+        protected void RegisterSubWindow(Enum @enum, IWindow win)
+        {
+            subWindowsMap[@enum] = win;
+        }
+
+        /// <summary>
+        /// 获取窗口
+        /// </summary>
+        /// <param name="enum"></param>
+        /// <typeparam name="T1"></typeparam>
+        /// <returns></returns>
+        public T1 GetWindow<T1>(Enum @enum)
+        {
+            IWindow win = null;
+            subWindowsMap.TryGetValue(@enum, out win);
+            return (T1)win;
         }
 
         #endregion

@@ -31,7 +31,7 @@ namespace BDFramework.UFlux
         public override void Init()
         {
             base.Init();
-            setPropCustomAdaptorMap[nameof(UFluxAutoLogic.SetChildValue)]       = SetChildValue;
+            setPropCustomAdaptorMap[nameof(UFluxAutoLogic.SetChildValue)] = SetChildValue;
             setPropCustomAdaptorMap[nameof(UFluxAutoLogic.ForeahSetChildValue)] = ForeahSetChildValueFormArray;
         }
 
@@ -61,7 +61,8 @@ namespace BDFramework.UFlux
         private void ForeahSetChildValueFormArray(Transform transform, object value)
         {
             ICollection Collection = value as ICollection;
-            if (Collection == null) return;
+            if (Collection == null)
+                return;
             int count = 0;
             foreach (var item in Collection)
             {

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace BDFramework.UFlux
 {
-    public class Component<T> : IUFluxComponent where T : PropsBase, new()
+    public class Component<T> : IComponent where T : PropsBase, new()
     {
         
         /// <summary>
@@ -67,6 +67,7 @@ namespace BDFramework.UFlux
             this.Transform = trans;
             //创建State
             this.Props = new T();
+            UFlux.SetTransformPath(this);
         }
         /// <summary>
         /// 这里重载一个构造函数

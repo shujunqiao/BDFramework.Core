@@ -8,27 +8,25 @@ using UnityEngine.UI;
 namespace BDFramework.UFlux
 {
 
-    public class TransformHelper
+    public class TransformChild
     {
         /// <summary>
         /// 控制几个子节点隐藏
         /// </summary>
         public  void ShowHideChildByNumber(){}
-
-        
     }
     
     /// <summary>
     /// 自定义逻辑的适配器
     /// </summary>
-    [ComponentAdaptorProcessAttribute(typeof(TransformHelper))]
-    public class CustomLogicAdaptor_TransformHelper : AComponentAdaptor
+    [ComponentAdaptorProcessAttribute(typeof(TransformChild))]
+    public class CustomLogicAdaptor_TransformChild : AComponentAdaptor
     {
         
         public override void Init()
         {
             base.Init();
-            setPropCustomAdaptorMap[nameof(TransformHelper.ShowHideChildByNumber)] = ShowHideChildByNumber;
+            setPropCustomAdaptorMap[nameof(TransformChild.ShowHideChildByNumber)] = ShowHideChildByNumber;
           
         }
         /// <summary>

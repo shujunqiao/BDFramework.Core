@@ -5,7 +5,7 @@ using Code.Game.demo6_UFlux._05.NodeHelper;
 using UnityEngine;
 using UnityEngine.UI;
 
-[UI((int) UFluxWindowEnum.UFluxTest005, "Windows/UFlux/demo003/Window_FluxTest003")]
+[UI((int) UFluxWindowEnum.Test003, "Windows/UFlux/demo003/Window_FluxTest003")]
 public class Window_CustomLogicBind : AWindow<PropsDemo003Window>
 {
     public Window_CustomLogicBind(string path) : base(path)
@@ -58,9 +58,9 @@ public class Window_CustomLogicBind : AWindow<PropsDemo003Window>
         btn_ChangeNodeByInt.onClick.AddListener(() =>
         {
             int count = Random.Range(1, 6);
-            this.Props.ShowHideChildByNumber = count;
+            this.Props.value = count;
 
-            this.Props.SetPropertyChange(nameof(this.Props.ShowHideChildByNumber)); //设置属性更改
+            this.Props.SetPropertyChange(nameof(this.Props.value)); //设置属性更改
 
             this.SetProps();
         });

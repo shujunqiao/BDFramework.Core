@@ -1,4 +1,6 @@
 ﻿
+using BDFramework.UFlux.View.Props;
+
 namespace BDFramework.UFlux
 {
     /// <summary>
@@ -6,8 +8,7 @@ namespace BDFramework.UFlux
     /// </summary>
     public interface IWindow
     {
-
-
+        T1 GetProps<T1>() where T1 : PropsBase, new();
         void SendMessage(UIMessage message);
     }
 }

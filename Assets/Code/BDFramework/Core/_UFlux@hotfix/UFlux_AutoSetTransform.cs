@@ -19,7 +19,7 @@ namespace BDFramework.UFlux
         /// 绑定Windows的值
         /// </summary>
         /// <param name="o"></param>
-        static public void SetTransformPath(IUFluxComponent component)
+        static public void SetTransformPath(IComponent component)
         {
             var vt = component.GetType();
             var fields = vt.GetFields(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public);
