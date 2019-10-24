@@ -121,7 +121,7 @@ namespace BDFramework.UFlux
         /// <param name="enum"></param>
         /// <typeparam name="T1"></typeparam>
         /// <returns></returns>
-        public T1 GetWindow<T1>(Enum @enum)
+        public T1 GetSubWindow<T1>(Enum @enum)
         {
             IWindow win = null;
             subWindowsMap.TryGetValue(@enum, out win);
