@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
-
 using Mono.Cecil;
 using ILRuntime.Runtime.Intepreter.OpCodes;
 using ILRuntime.Runtime.Intepreter;
 using ILRuntime.Runtime.Debugger;
 using ILRuntime.CLR.TypeSystem;
 using ILRuntime.Reflection;
+
 namespace ILRuntime.CLR.Method
 {
     public class ILMethod : IMethod
@@ -98,6 +98,7 @@ namespace ILRuntime.CLR.Method
                 return def.HasThis;
             }
         }
+
         public int GenericParameterCount
         {
             get
@@ -107,6 +108,7 @@ namespace ILRuntime.CLR.Method
                 return def.GenericParameters.Count;
             }
         }
+
         public bool IsGenericInstance
         {
             get
@@ -114,6 +116,7 @@ namespace ILRuntime.CLR.Method
                 return genericParameters != null;
             }
         }
+
         public Mono.Collections.Generic.Collection<Mono.Cecil.Cil.VariableDefinition> Variables
         {
             get
@@ -125,6 +128,7 @@ namespace ILRuntime.CLR.Method
         public KeyValuePair<string, IType>[] GenericArguments { get { return genericParameters; } }
 
         public IType[] GenericArugmentsArray { get { return genericArguments; } }
+
         public ILMethod(MethodDefinition def, ILType type, ILRuntime.Runtime.Enviorment.AppDomain domain)
         {
             this.def = def;
@@ -135,6 +139,7 @@ namespace ILRuntime.CLR.Method
             }
             else
                 ReturnType = domain.GetType(def.ReturnType, type, this);
+
             if (type.IsDelegate && def.Name == "Invoke")
                 isDelegateInvoke = true;
             this.appdomain = domain;
@@ -187,6 +192,7 @@ namespace ILRuntime.CLR.Method
             }
             else
                 return res;
+
             return null;
         }
 
@@ -195,7 +201,10 @@ namespace ILRuntime.CLR.Method
             get
             {
                 if (body == null)
+                {
                     InitCodeBody();
+                }
+
                 return body;
             }
         }
@@ -254,6 +263,7 @@ namespace ILRuntime.CLR.Method
                 {
                     InitParameters();
                 }
+
                 return parameters;
             }
         }
@@ -281,15 +291,17 @@ namespace ILRuntime.CLR.Method
                 {
                     var c = def.Body.Instructions[i];
                     OpCode code = new OpCode();
-                    code.Code = (OpCodeEnum)c.OpCode.Code;
+                    code.Code = (OpCodeEnum) c.OpCode.Code;
                     addr[c] = i;
                     body[i] = code;
                 }
+
                 for (int i = 0; i < body.Length; i++)
                 {
                     var c = def.Body.Instructions[i];
                     InitToken(ref body[i], c.Operand, addr);
-                    if (i > 0 && c.OpCode.Code == Mono.Cecil.Cil.Code.Callvirt && def.Body.Instructions[i - 1].OpCode.Code == Mono.Cecil.Cil.Code.Constrained)
+                    if (i > 0 && c.OpCode.Code == Mono.Cecil.Cil.Code.Callvirt &&
+                        def.Body.Instructions[i - 1].OpCode.Code == Mono.Cecil.Cil.Code.Constrained)
                     {
                         body[i - 1].TokenLong = body[i].TokenInteger;
                     }
@@ -320,9 +332,11 @@ namespace ILRuntime.CLR.Method
                         default:
                             throw new NotImplementedException();
                     }
+
                     exceptionHandler[i] = e;
                     //Mono.Cecil.Cil.ExceptionHandlerType.
                 }
+
                 //Release Method body to save memory
                 variables = def.Body.Variables;
                 def.Body = null;
@@ -364,28 +378,28 @@ namespace ILRuntime.CLR.Method
                 case OpCodeEnum.Blt_S:
                 case OpCodeEnum.Blt_Un:
                 case OpCodeEnum.Blt_Un_S:
-                    code.TokenInteger = addr[(Mono.Cecil.Cil.Instruction)token];
+                    code.TokenInteger = addr[(Mono.Cecil.Cil.Instruction) token];
                     break;
                 case OpCodeEnum.Ldc_I4:
-                    code.TokenInteger = (int)token;
+                    code.TokenInteger = (int) token;
                     break;
                 case OpCodeEnum.Ldc_I4_S:
-                    code.TokenInteger = (sbyte)token;
+                    code.TokenInteger = (sbyte) token;
                     break;
                 case OpCodeEnum.Ldc_I8:
-                    code.TokenLong = (long)token;
+                    code.TokenLong = (long) token;
                     break;
                 case OpCodeEnum.Ldc_R4:
-                    {
-                        float val = (float)token;
-                        code.TokenInteger = *(int*)&val;
-                    }
+                {
+                    float val = (float) token;
+                    code.TokenInteger = *(int*) &val;
+                }
                     break;
                 case OpCodeEnum.Ldc_R8:
-                    {
-                        double val = (double)token;
-                        code.TokenLong = *(long*)&val;
-                    }
+                {
+                    double val = (double) token;
+                    code.TokenLong = *(long*) &val;
+                }
                     break;
                 case OpCodeEnum.Stloc:
                 case OpCodeEnum.Stloc_S:
@@ -393,10 +407,10 @@ namespace ILRuntime.CLR.Method
                 case OpCodeEnum.Ldloc_S:
                 case OpCodeEnum.Ldloca:
                 case OpCodeEnum.Ldloca_S:
-                    {
-                        Mono.Cecil.Cil.VariableDefinition vd = (Mono.Cecil.Cil.VariableDefinition)token;
-                        code.TokenInteger = vd.Index;
-                    }
+                {
+                    Mono.Cecil.Cil.VariableDefinition vd = (Mono.Cecil.Cil.VariableDefinition) token;
+                    code.TokenInteger = vd.Index;
+                }
                     break;
                 case OpCodeEnum.Ldarg_S:
                 case OpCodeEnum.Ldarg:
@@ -404,38 +418,38 @@ namespace ILRuntime.CLR.Method
                 case OpCodeEnum.Ldarga_S:
                 case OpCodeEnum.Starg:
                 case OpCodeEnum.Starg_S:
-                    {
-                        Mono.Cecil.ParameterDefinition vd = (Mono.Cecil.ParameterDefinition)token;
-                        code.TokenInteger = vd.Index;
-                        if (HasThis)
-                            code.TokenInteger++;
-                    }
+                {
+                    Mono.Cecil.ParameterDefinition vd = (Mono.Cecil.ParameterDefinition) token;
+                    code.TokenInteger = vd.Index;
+                    if (HasThis)
+                        code.TokenInteger++;
+                }
                     break;
                 case OpCodeEnum.Call:
                 case OpCodeEnum.Newobj:
                 case OpCodeEnum.Ldftn:
                 case OpCodeEnum.Ldvirtftn:
                 case OpCodeEnum.Callvirt:
+                {
+                    bool invalidToken;
+                    var m = appdomain.GetMethod(token, declaringType, this, out invalidToken);
+                    if (m != null)
                     {
-                        bool invalidToken;
-                        var m = appdomain.GetMethod(token, declaringType, this, out invalidToken);
-                        if (m != null)
-                        {
-                            if (invalidToken)
-                                code.TokenInteger = m.GetHashCode();
-                            else
-                                code.TokenInteger = token.GetHashCode();
-                        }
+                        if (invalidToken)
+                            code.TokenInteger = m.GetHashCode();
                         else
-                        {
-                            //Cannot find method or the method is dummy
-                            MethodReference _ref = (MethodReference)token;
-                            int paramCnt = _ref.HasParameters ? _ref.Parameters.Count : 0;
-                            if (_ref.HasThis)
-                                paramCnt++;
-                            code.TokenLong = paramCnt;
-                        }
+                            code.TokenInteger = token.GetHashCode();
                     }
+                    else
+                    {
+                        //Cannot find method or the method is dummy
+                        MethodReference _ref = (MethodReference) token;
+                        int paramCnt = _ref.HasParameters ? _ref.Parameters.Count : 0;
+                        if (_ref.HasThis)
+                            paramCnt++;
+                        code.TokenLong = paramCnt;
+                    }
+                }
                     break;
                 case OpCodeEnum.Constrained:
                 case OpCodeEnum.Box:
@@ -446,52 +460,52 @@ namespace ILRuntime.CLR.Method
                 case OpCodeEnum.Newarr:
                 case OpCodeEnum.Stobj:
                 case OpCodeEnum.Ldobj:
-                    {
-                        code.TokenInteger = GetTypeTokenHashCode(token);
-                    }
+                {
+                    code.TokenInteger = GetTypeTokenHashCode(token);
+                }
                     break;
                 case OpCodeEnum.Stfld:
                 case OpCodeEnum.Ldfld:
                 case OpCodeEnum.Ldflda:
-                    {
-                        code.TokenLong = appdomain.GetStaticFieldIndex(token, declaringType, this);
-                    }
+                {
+                    code.TokenLong = appdomain.GetStaticFieldIndex(token, declaringType, this);
+                }
                     break;
 
                 case OpCodeEnum.Stsfld:
                 case OpCodeEnum.Ldsfld:
                 case OpCodeEnum.Ldsflda:
-                    {
-                        code.TokenLong = appdomain.GetStaticFieldIndex(token, declaringType, this);
-                    }
+                {
+                    code.TokenLong = appdomain.GetStaticFieldIndex(token, declaringType, this);
+                }
                     break;
                 case OpCodeEnum.Ldstr:
-                    {
-                        long hashCode = appdomain.CacheString(token);
-                        code.TokenLong = hashCode;
-                    }
+                {
+                    long hashCode = appdomain.CacheString(token);
+                    code.TokenLong = hashCode;
+                }
                     break;
                 case OpCodeEnum.Ldtoken:
+                {
+                    if (token is FieldReference)
                     {
-                        if (token is FieldReference)
-                        {
-                            code.TokenInteger = 0;
-                            code.TokenLong = appdomain.GetStaticFieldIndex(token, declaringType, this);
-                        }
-                        else if (token is TypeReference)
-                        {
-                            code.TokenInteger = 1;
-                            code.TokenLong = GetTypeTokenHashCode(token);
-                        }
-                        else
-                            throw new NotImplementedException();
+                        code.TokenInteger = 0;
+                        code.TokenLong = appdomain.GetStaticFieldIndex(token, declaringType, this);
                     }
+                    else if (token is TypeReference)
+                    {
+                        code.TokenInteger = 1;
+                        code.TokenLong = GetTypeTokenHashCode(token);
+                    }
+                    else
+                        throw new NotImplementedException();
+                }
                     break;
                 case OpCodeEnum.Switch:
-                    {
-                        PrepareJumpTable(token, addr);
-                        code.TokenInteger = token.GetHashCode();
-                    }
+                {
+                    PrepareJumpTable(token, addr);
+                    code.TokenInteger = token.GetHashCode();
+                }
                     break;
             }
         }
@@ -502,16 +516,17 @@ namespace ILRuntime.CLR.Method
             bool isGenericParameter = CheckHasGenericParamter(token);
             if (t == null && isGenericParameter)
             {
-                t = FindGenericArgument(((TypeReference)token).Name);
+                t = FindGenericArgument(((TypeReference) token).Name);
             }
+
             if (t != null)
             {
                 if (t is ILType)
                 {
-                    if (((ILType)t).TypeReference.HasGenericParameters)
+                    if (((ILType) t).TypeReference.HasGenericParameters)
                         return t.GetHashCode();
                     else
-                        return ((ILType)t).TypeReference.GetHashCode();
+                        return ((ILType) t).TypeReference.GetHashCode();
                 }
                 else if (isGenericParameter)
                 {
@@ -520,6 +535,7 @@ namespace ILRuntime.CLR.Method
                 else
                     return token.GetHashCode();
             }
+
             return 0;
         }
 
@@ -527,19 +543,20 @@ namespace ILRuntime.CLR.Method
         {
             if (token is TypeReference)
             {
-                TypeReference _ref = ((TypeReference)token);
+                TypeReference _ref = ((TypeReference) token);
                 if (_ref.IsArray)
                     return CheckHasGenericParamter(_ref.GetElementType());
                 if (_ref.IsGenericParameter)
                     return true;
                 if (_ref.IsGenericInstance)
                 {
-                    GenericInstanceType gi = (GenericInstanceType)_ref;
-                    foreach(var i in gi.GenericArguments)
+                    GenericInstanceType gi = (GenericInstanceType) _ref;
+                    foreach (var i in gi.GenericArguments)
                     {
                         if (CheckHasGenericParamter(i))
                             return true;
                     }
+
                     return false;
                 }
                 else
@@ -582,12 +599,14 @@ namespace ILRuntime.CLR.Method
                     isByRef = true;
                     pt = pt.GetElementType();
                 }
+
                 if (i.ParameterType.IsArray)
                 {
                     isArray = true;
-                    rank = ((ArrayType)pt).Rank;
+                    rank = ((ArrayType) pt).Rank;
                     pt = pt.GetElementType();
                 }
+
                 if (pt.IsGenericParameter)
                 {
                     type = FindGenericArgument(pt.Name);
@@ -602,12 +621,14 @@ namespace ILRuntime.CLR.Method
                                 break;
                             }
                         }
+
                         if (found)
                         {
                             type = new ILGenericParameterType(pt.Name);
                         }
                         else
-                            throw new NotSupportedException("Cannot find Generic Parameter " + pt.Name + " in " + def.FullName);
+                            throw new NotSupportedException("Cannot find Generic Parameter " + pt.Name + " in " +
+                                                            def.FullName);
                     }
 
                     if (isByRef)
@@ -617,6 +638,7 @@ namespace ILRuntime.CLR.Method
                 }
                 else
                     type = appdomain.GetType(i.ParameterType, declaringType, this);
+
                 parameters.Add(type);
             }
         }
@@ -638,10 +660,12 @@ namespace ILRuntime.CLR.Method
             {
                 m.ReturnType = m.FindGenericArgument(m.def.ReturnType.Name);
             }
+
             return m;
         }
 
         string cachedName;
+
         public override string ToString()
         {
             if (cachedName == null)
@@ -664,9 +688,11 @@ namespace ILRuntime.CLR.Method
                     sb.Append(' ');
                     sb.Append(def.Parameters[i].Name);
                 }
+
                 sb.Append(')');
                 cachedName = sb.ToString();
             }
+
             return cachedName;
         }
 

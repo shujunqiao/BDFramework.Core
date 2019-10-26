@@ -87,7 +87,7 @@ namespace BDFramework.ScreenView
 
         public void BeginNavTo(Enum name)
         {
-            BeginNavTo(Convert.ToInt32(name));
+            BeginNavTo(name.GetHashCode());
         }
 
         /// <summary>

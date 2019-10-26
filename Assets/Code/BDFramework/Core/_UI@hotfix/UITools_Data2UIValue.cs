@@ -137,8 +137,9 @@ namespace BDFramework.Core
                 yield return new WaitForSecondsRealtime(30);
                 var keys = this.ComponentCacheMap.Keys.ToList();
 
-                foreach (var k in keys)
+                for (int i = 0; i < keys.Count; i++)
                 {
+                    var k = keys[i];
                     if (k == false)
                     {
                         this.ComponentCacheMap.Remove(k);
