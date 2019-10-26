@@ -39,7 +39,7 @@ public class EditorWindow_ScriptBuildDll : EditorWindow
                 {
                     ScriptBuildTools.BuildDll(Application.dataPath,
                         Application.streamingAssetsPath + "/" + BDUtils.GetPlatformPath(Application.platform),
-                        ScriptBuildTools.BuildMode.DotNet);
+                        ScriptBuildTools.BuildMode.Debug);
                     AssetDatabase.Refresh();
                 }
 
