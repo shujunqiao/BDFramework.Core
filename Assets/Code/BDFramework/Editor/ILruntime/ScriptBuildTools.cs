@@ -38,7 +38,7 @@ public class ScriptBuildTools
     /// <summary>
     /// 编译DLL
     /// </summary>
-    static public void BuildDll(string dataPath, string outPath, BuildMode mode = BuildMode.Release)
+    static public void BuildDll(string dataPath, string outPath, BuildMode mode)
     {
         EditorUtility.DisplayProgressBar("编译服务", "准备编译环境...", 0.1f);
         //base.dll 修改为 Assembly-CSharp,
@@ -77,7 +77,7 @@ public class ScriptBuildTools
             searchPath[i] = IPath.Combine(dataPath, searchPath[i]);
         }
 
-        //2018.3的package目录
+        //unity3d 2018的package目录
         var pPath = BApplication.projroot + "/Library/PackageCache";
         searchPath.Add(pPath);
 
@@ -135,7 +135,7 @@ public class ScriptBuildTools
     }
 
     /// <summary>
-    /// 用mono编译
+    /// 编译
     /// </summary>
     /// <param name="tempCodePath"></param>
     /// <param name="outBaseDllPath"></param>
@@ -236,8 +236,8 @@ public class ScriptBuildTools
         foreach (var cs in codefiles)
         {
             var content = File.ReadAllText(cs);
-            var __syntaxTree = CSharpSyntaxTree.ParseText(content, opa, cs, Encoding.UTF8);
-            codes.Add(__syntaxTree);
+            var syntaxTree = CSharpSyntaxTree.ParseText(content, opa, cs, Encoding.UTF8);
+            codes.Add(syntaxTree);
         }
 
         //添加dll
