@@ -35,7 +35,7 @@ public class EditorWindow_ScriptBuildDll : EditorWindow
             GUILayout.BeginHorizontal();
             {
                 //
-                if (GUILayout.Button("1.编译dll(Roslyn-Release)", GUILayout.Width(150), GUILayout.Height(30)))
+                if (GUILayout.Button("1.编译dll(Roslyn-Release)", GUILayout.Width(155), GUILayout.Height(30)))
                 {
                     RoslynBuild(ScriptBuildTools.BuildMode.Release);
                 }

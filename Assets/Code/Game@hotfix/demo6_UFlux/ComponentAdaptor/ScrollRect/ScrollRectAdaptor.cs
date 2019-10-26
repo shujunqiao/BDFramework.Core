@@ -5,8 +5,13 @@ using UnityEngine.UI;
 
 namespace BDFramework.UI.Demo_ScreenRect
 {
-    public class DemoScrollRect : ScrollRect
+    public class ScrollRectAdaptor
     {
+        private ScrollRect sr;
+        public ScrollRectAdaptor(ScrollRect sr)
+        {
+            this.sr = sr;
+        }
         
         public List<IComponent> Contents = new List<IComponent>();
 
@@ -15,7 +20,7 @@ namespace BDFramework.UI.Demo_ScreenRect
         /// </summary>
         public void AddItem(IComponent component)
         {
-            component.Transform.SetParent(this.content, false);
+            component.Transform.SetParent(this.sr.content, false);
             this.Contents.Add(component);
         }
 

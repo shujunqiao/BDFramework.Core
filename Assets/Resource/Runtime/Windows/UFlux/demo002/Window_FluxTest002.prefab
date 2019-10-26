@@ -598,7 +598,7 @@ GameObject:
   - component: {fileID: 4559159660118703918}
   - component: {fileID: 4559159660118703917}
   - component: {fileID: 4559159660118703916}
-  - component: {fileID: 4559159660118703919}
+  - component: {fileID: 647797361}
   m_Layer: 5
   m_Name: ScrollView
   m_TagString: Untagged
@@ -663,7 +663,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
---- !u!114 &4559159660118703919
+--- !u!114 &647797361
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -672,7 +672,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4559159660118703889}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fc934ba773f441fa9e570752aca130e, type: 3}
+  m_Script: {fileID: 1367256648, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Content: {fileID: 4559159661139765833}
@@ -950,8 +950,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4559159660479349285}
   m_HandleRect: {fileID: 4559159660479349284}
   m_Direction: 2
-  m_Value: 0.9999997
-  m_Size: 0.7858541
+  m_Value: 0.9999999
+  m_Size: 0.78585416
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

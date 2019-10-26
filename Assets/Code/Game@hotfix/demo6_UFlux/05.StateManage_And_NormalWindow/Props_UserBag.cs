@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using BDFramework.UFlux.View.Props;
 using BDFramework.UI.Demo_ScreenRect;
+using UnityEngine.UI;
 
 namespace BDFramework.UFlux.Test
 {
@@ -8,7 +9,7 @@ namespace BDFramework.UFlux.Test
     {
         
         [TransformPath("ScrollView")]
-        [ComponentValueBind(typeof(DemoScrollRect), nameof(DemoScrollRect.Contents))]
+        [ComponentValueBind(typeof(ScrollRectAdaptor), nameof(ScrollRectAdaptor.Contents))]
         public List<Props_ItemTest003>  ItemList=new List<Props_ItemTest003>();
     }
 }
