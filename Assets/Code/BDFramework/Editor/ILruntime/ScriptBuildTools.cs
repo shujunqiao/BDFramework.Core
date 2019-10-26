@@ -6,9 +6,11 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Security.AccessControl;
+using BDFramework.Helper;
 using Debug = UnityEngine.Debug;
 using BDFramework.ResourceMgr;
 using LitJson;
+using Microsoft.CSharp;
 using Tool;
 #if UNITY_EDITOR
 using UnityEngine;
@@ -281,9 +283,8 @@ public class ScriptBuildTools
     
     static public void BuildByDotNet(string tempDirect,string outbaseDllPath,string outHotfixPath)
     {
-        string str1 = Application.dataPath;
-        string str2 = Application.streamingAssetsPath;
-        string exePath = Application.dataPath + "/" + "Code/BDFramework/Tools/ILRBuild/build.exe";
+        
+        string exePath =  Application.dataPath.Replace("Assets","") + "BDTemp/Tools/BuildDLL/build.exe";
         if (File.Exists(exePath))
         {
             Debug.Log(".net编译工具存在!");
@@ -362,6 +363,7 @@ public class ScriptBuildTools
     /// <param name="output"></param>
     static public BuildStatus Build(string[] refAssemblies, string[] codefiles, string output)
     {
+       
         // 设定编译参数,DLL代表需要引入的Assemblies
         CompilerParameters cp = new CompilerParameters();
         //
@@ -392,7 +394,9 @@ public class ScriptBuildTools
         }
 
         // 编译代理
-        CodeDomProvider provider = CodeDomProvider.CreateProvider("CSharp");
+        var provOptions = new Dictionary<string, string>();
+        provOptions.Add("CompilerVersion", "v4.7.1");
+        CSharpCodeProvider provider = new CSharpCodeProvider(provOptions);
         CompilerResults cr = provider.CompileAssemblyFromFile(cp, codefiles);
 
 
