@@ -290,11 +290,16 @@ namespace BDFramework.UI
             return win;
         }
 
+        public void CloseWindow(Enum index)
+        {
+            CloseWindow(index.GetHashCode());
+        }
+
         /// <summary>
         /// 关闭窗口
         /// </summary>
         /// <param name="uiIndex">窗口枚举</param>
-        public void CloseWindow(int index, bool isMask = true)
+        public void CloseWindow(int index)
         {
             var uiIndex = index.GetHashCode();
             if (windowMap.ContainsKey(uiIndex))
@@ -303,10 +308,6 @@ namespace BDFramework.UI
                 if (!v.IsClose && v.IsLoad)
                 {
                     v.Close();
-                }
-                else
-                {
-//                    Debug.LogErrorFormat("UI未加载或已经处于close状态：{0}", uiIndex);
                 }
             }
             else

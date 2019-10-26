@@ -13,7 +13,7 @@ using BDFramework;
 /// index 
 /// resource 目录
 /// </summary>
-[UI((int)WinEnum.Win_Demo5,"Windows/window_demo5_SpriteAtlas") ]
+[UI((int)WinEnum.Win_Demo5_Atlas,"Windows/window_demo5_SpriteAtlas") ]
 public class Window_Demo5 : AWindow
 {
  

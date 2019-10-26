@@ -9,7 +9,7 @@ namespace BDFramework.UI
         Win_Demo1,
         Win_Demo2 ,
         Win_Demo3 ,
-        Win_Demo4 ,
-         Win_Demo5
+        Win_Demo4 , 
+        Win_Demo5_Atlas
     }
 }

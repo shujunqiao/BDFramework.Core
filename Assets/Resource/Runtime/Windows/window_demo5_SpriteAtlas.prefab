@@ -100,8 +100,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 40
@@ -234,6 +232,48 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 6835357559236554752, guid: 36c26bcd10b840e4f9868d6a6b9b6b37,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: ded86f45cdc94524fbce023e2a5fe6c3,
+        type: 3}
+    - target: {fileID: 5651223788187411074, guid: 36c26bcd10b840e4f9868d6a6b9b6b37,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 43dc9b46d20ad6646ab98251fe2cb5e4,
+        type: 3}
+    - target: {fileID: 9004233806847266985, guid: 36c26bcd10b840e4f9868d6a6b9b6b37,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 44b48269b08f8b14f877d701eb4db5c0,
+        type: 3}
+    - target: {fileID: 7696526286926555238, guid: 36c26bcd10b840e4f9868d6a6b9b6b37,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d0528a1f2ccc35b47b50d2c86c9f2d81,
+        type: 3}
+    - target: {fileID: 7624834951611963972, guid: 36c26bcd10b840e4f9868d6a6b9b6b37,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1f433eab888c98b4f89dc81c8a5dbdcf,
+        type: 3}
+    - target: {fileID: 82111546928271638, guid: 36c26bcd10b840e4f9868d6a6b9b6b37,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: af8afac1060027d47a8cc75d2fe620f2,
+        type: 3}
+    - target: {fileID: 2681512293673805984, guid: 36c26bcd10b840e4f9868d6a6b9b6b37,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 47288d62745a0de4686ed133ccea974d,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36c26bcd10b840e4f9868d6a6b9b6b37, type: 3}
 --- !u!224 &3059637947638561174 stripped

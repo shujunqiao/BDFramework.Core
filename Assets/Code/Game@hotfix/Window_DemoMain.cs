@@ -36,6 +36,7 @@ public class Window_DemoMain : AWindow
 
     [TransformPath("btn_7")] private Button btn_07;
     [TransformPath("btn_8")]  private Button btn_08;
+    [TransformPath("btn_9")]  private Button btn_09;
 
     //[]
     public Window_DemoMain(string path) : base(path)
@@ -147,6 +148,14 @@ public class Window_DemoMain : AWindow
         this.btn_08.onClick.AddListener(() =>
         {
            DemoEventManager.Inst.Do(DemoEventEnum.TestEvent2);
+        });
+        
+        //图集
+        this.btn_09.onClick.AddListener(() =>
+        {
+            UIManager.Inst.CloseWindow( WinEnum.Win_Main);
+            UIManager.Inst.LoadWindows((int) WinEnum.Win_Demo5_Atlas);
+            UIManager.Inst.ShowWindow((int) WinEnum.Win_Demo5_Atlas);
         });
     }
 
