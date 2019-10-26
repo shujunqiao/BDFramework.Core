@@ -54,7 +54,6 @@ namespace ILRuntime.Runtime.Generated
             UnityEngine_UI_Button_Binding.Register(app);
             UnityEngine_Events_UnityEvent_Binding.Register(app);
             UnityEngine_Random_Binding.Register(app);
-            System_Enum_Binding.Register(app);
             System_Array_Binding.Register(app);
             BDFramework_ResourceMgr_BResources_Binding.Register(app);
             System_Collections_Generic_List_1_String_Binding.Register(app);

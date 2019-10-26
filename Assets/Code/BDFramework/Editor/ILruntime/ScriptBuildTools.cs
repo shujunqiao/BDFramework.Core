@@ -41,28 +41,23 @@ public class ScriptBuildTools
     static public void BuildDll(string dataPath, string outPath, BuildMode mode)
     {
         EditorUtility.DisplayProgressBar("编译服务", "准备编译环境...", 0.1f);
-        //base.dll 修改为 Assembly-CSharp,
-        //为了保证依赖关系,在editor反射模式下能正常执行
-        var outbaseDllPath = outPath + "/hotfix/Assembly-CSharp.dll";
+
         //输出环境
         var path = outPath + "/Hotfix";
-
-        //建立目标目录
-        var outDirectory = Path.GetDirectoryName(outbaseDllPath);
+        
         //准备输出环境
         try
         {
-            if (Directory.Exists(outDirectory))
+            if (Directory.Exists(path))
             {
                 Directory.Delete(path, true);
             }
-
-            Directory.CreateDirectory(outDirectory);
+            Directory.CreateDirectory(path);
         }
         catch (Exception e)
         {
             EditorUtility.ClearProgressBar();
-            EditorUtility.DisplayDialog("提示", "Unity拒绝创建文件夹,请重试!", "OK");
+            EditorUtility.DisplayDialog("提示", "Unity拒绝文件夹操作,请重试!", "OK");
             return;
         }
 
@@ -113,24 +108,21 @@ public class ScriptBuildTools
 
         #region DLL引用搜集处理
 
-        EditorUtility.DisplayProgressBar("编译服务", "收集依赖dll...", 0.3f);
+        EditorUtility.DisplayProgressBar("编译服务", "收集依赖dll", 0.3f);
 
         var dllFiles = FindDLLByCSPROJ();
 
         #endregion
 
-        EditorUtility.DisplayProgressBar("编译服务", "复制到临时环境...", 0.4f);
-
-
         var outHotfixPath = outPath + "/hotfix/hotfix.dll";
 
         if (mode == BuildMode.Release)
         {
-            Build(baseCs, hotfixCs, dllFiles, outbaseDllPath, outHotfixPath);
+            Build(hotfixCs, dllFiles, outHotfixPath);
         }
         else if (mode == BuildMode.Debug)
         {
-            Build(baseCs, hotfixCs, dllFiles, outbaseDllPath, outHotfixPath,true);
+            Build(hotfixCs, dllFiles, outHotfixPath,true);
         }
     }
 
@@ -140,23 +132,18 @@ public class ScriptBuildTools
     /// <param name="tempCodePath"></param>
     /// <param name="outBaseDllPath"></param>
     /// <param name="outHotfixDllPath"></param>
-    static public void Build(List<string> baseCS,
+    static public void Build(
         List<string> hotfixCS,
         List<string> dllFiles,
-        string outBaseDllPath,
         string outHotfixDllPath,
         bool isdebug=false)
     {
-        EditorUtility.DisplayProgressBar("编译服务", "[1/2]开始编译base.dll", 0.5f);
-        if (!BuildByRoslyn(dllFiles.ToArray(), baseCS.ToArray(), outBaseDllPath,isdebug))
-        {
-            EditorUtility.ClearProgressBar();
-            return;
-        }
 
-        EditorUtility.DisplayProgressBar("编译服务", "[2/2]开始编译hotfix.dll", 0.7f);
+        EditorUtility.DisplayProgressBar("编译服务", "[2/2]开始编译hotfix.dll", 0.5f);
         //将base.dll加入 
-        dllFiles.Add(outBaseDllPath);
+        var mainDllPath = BApplication.projroot + "/Library/ScriptAssemblies/Assembly-CSharp.dll";
+        mainDllPath.Replace("/", "\\");
+        dllFiles.Add(mainDllPath);
         try
         {
             BuildByRoslyn(dllFiles.ToArray(), hotfixCS.ToArray(), outHotfixDllPath,isdebug);
@@ -171,8 +158,6 @@ public class ScriptBuildTools
         EditorUtility.DisplayProgressBar("编译服务", "清理临时文件", 0.9f);
         //删除临时目录
         //删除base.dll
-        File.Delete(outBaseDllPath);
-        File.Delete(outBaseDllPath + ".pdb");
         EditorUtility.ClearProgressBar();
         AssetDatabase.Refresh();
     }
@@ -259,21 +244,40 @@ public class ScriptBuildTools
         if (isdebug)
         {
             option = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary,
-                optimizationLevel: OptimizationLevel.Debug, checkOverflow: false,
+                optimizationLevel: OptimizationLevel.Debug, checkOverflow: true,
                 allowUnsafe: true
             );
         }
         else
         {
             option = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary,
-                optimizationLevel: OptimizationLevel.Release, checkOverflow: false,
+                optimizationLevel: OptimizationLevel.Release, checkOverflow: true,
                 allowUnsafe: true
             );
         }
 
         //创建编译器代理
         var compilation = CSharpCompilation.Create(Path.GetFileName(output), codes, assemblies, option);
-        EmitResult result = compilation.Emit(output);
+        EmitResult result = null;
+        if (!isdebug)
+        {
+            result =compilation.Emit(output);
+        }
+        else
+        {
+            var pdbPath = output + ".pdb";
+            var emitOptions = new EmitOptions(
+                debugInformationFormat: DebugInformationFormat.PortablePdb,
+                pdbFilePath: pdbPath);
+            using (var dllStream = new MemoryStream())
+            using (var pdbStream = new MemoryStream())
+            {
+                result = compilation.Emit(dllStream, pdbStream,  options: emitOptions);
+                
+                File.WriteAllBytes(output,dllStream.GetBuffer()); 
+                File.WriteAllBytes(pdbPath,pdbStream.GetBuffer()); 
+            }
+        }
         // 编译失败，提示
         if (!result.Success)
         {

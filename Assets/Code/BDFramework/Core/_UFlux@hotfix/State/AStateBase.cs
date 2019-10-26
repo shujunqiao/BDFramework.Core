@@ -121,24 +121,23 @@ namespace BDFramework.UFlux
             this.curProptyChangeList.Clear();
             this.curProptyChangeList.AddRange(list);
         }
-
-
-        private int curGetIndex = 0;
-
+        
+        private int curGetIndex = -1;
         /// <summary>
         /// 获取变更的属性
         /// </summary>
         /// <returns></returns>
         public string GetPropertyChange()
         {
+            curGetIndex = curGetIndex+1;
+            //
             if (curProptyChangeList.Count == 0 || curGetIndex == curProptyChangeList.Count)
             {
+                curGetIndex=-1;
                 return null;
             }
-
             //获取
             var name = curProptyChangeList[curGetIndex];
-            curGetIndex++;
             return name;
         }
 

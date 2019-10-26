@@ -61,39 +61,44 @@ namespace BDFramework.UFlux
             return window;
         }
 
+        public void LoadWindows(List<Enum> uiIndexes)
+        {
+            foreach (var i in uiIndexes)
+            {
+                LoadWindow(i);
+            }
+        }
+
         /// <summary>
         /// 加载窗口
         /// </summary>
         /// <param name="uiIndexs">窗口枚举</param>
-        public void LoadWindows(params Enum[] uiIndexs)
+        public void LoadWindow(Enum uiIndex)
         {
-            foreach (var i in uiIndexs)
-            {
-                var index = i.GetHashCode();
+            var index = uiIndex.GetHashCode();
 
-                if (windowMap.ContainsKey(index))
+            if (windowMap.ContainsKey(index))
+            {
+                var uvalue = windowMap[index] as IComponent;
+                if (uvalue.IsLoad)
                 {
-                    var uvalue = windowMap[index] as IComponent;
-                    if (uvalue.IsLoad)
-                    {
-                        BDebug.Log("已经加载过并未卸载" + index, "red");
-                    }
+                    BDebug.Log("已经加载过并未卸载" + index, "red");
+                }
+            }
+            else
+            {
+                //创建ui
+                var window = CreateWindow(index) as IComponent;
+                if (window == null)
+                {
+                    BDebug.Log("不存在UI:" + index, "red");
                 }
                 else
                 {
-                    //创建ui
-                    var window = CreateWindow(index) as IComponent;
-                    if (window == null)
-                    {
-                        BDebug.Log("不存在UI:" + index, "red");
-                    }
-                    else
-                    {
-                        windowMap[index] = window as IWindow;
-                        window.Load();
-                        window.Transform.SetParent(this.Bottom, false);
-                        PushCaheData(index);
-                    }
+                    windowMap[index] = window as IWindow;
+                    window.Load();
+                    window.Transform.SetParent(this.Bottom, false);
+                    PushCaheData(index);
                 }
             }
         }

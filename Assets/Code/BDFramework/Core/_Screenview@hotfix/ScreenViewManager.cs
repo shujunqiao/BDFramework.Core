@@ -58,8 +58,7 @@ namespace BDFramework.ScreenView
 
 
         #endregion
-
-
+        
         #region Screen管理
 
         public ScreenViewLayer AddLayer()
