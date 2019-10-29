@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using BDFramework.Core.Debugger;
 using BDFramework.ResourceMgr;
+using Code.BDFramework.Core.Tools;
 using LitJson;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
@@ -410,7 +411,8 @@ namespace BDFramework.Editor.Asset
             EditorUtility.ClearProgressBar();
             changeList = changeList.Distinct().ToList();
             Debug.LogFormat("<color=red>本地需要打包数量:{0}</color>", changeList.Count);
-            var buidpath = string.Format("{0}/{1}_changelist.json", Application.dataPath, target.ToString());
+            var buidpath = string.Format("{0}/{1}_changelist.json",BApplication.projroot, target.ToString());
+            File.WriteAllText(buidpath,JsonMapper.ToJson(changeList));
             Debug.Log("本地打包保存:" + buidpath);
         }
 
@@ -722,13 +724,14 @@ namespace BDFramework.Editor.Asset
 
             foreach (var p in paths)
             {
-                if (!Directory.Exists(p))
+                var cachePath = IPath.Combine(p, "Art/Cache.json");
+                if (!File.Exists(cachePath))
                 {
-                    Debug.Log("不存在:" + p);
+                    Debug.Log("不存在:" + cachePath);
                     continue;
                 }
 
-                var cachePath = IPath.Combine(p, "Art/Cache.json");
+               
                 var cacheDic = JsonMapper.ToObject<Dictionary<string, string>>(File.ReadAllText(cachePath));
 
                 float i = 0;

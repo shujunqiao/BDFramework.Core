@@ -103,11 +103,10 @@ public class Window_DemoMain : AWindow
         this.btn_06.onClick.AddListener(() =>
         {
             //1.同步加载
-            var go = BResources.Load<GameObject>("Windows/window_demo1");
-
+            var go = BResources.Load<GameObject>("AssetTest/Cube");
+            GameObject.Instantiate(go);
             //2.异步加载单个
             var id = BResources.AsyncLoad<GameObject>("Windows/window_demo1", (o) => { });
-         
             //3.异步加载多个
             var list = new List<string>() {"Windows/window_demo1", "Windows/window_demo2"};
             BResources.AsyncLoad(list,
