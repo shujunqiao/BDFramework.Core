@@ -11,5 +11,16 @@ namespace Code.BDFramework.Core.Tools
        {
            get { return Application.dataPath.Replace("/Assets", ""); }
        }
+
+        /// <summary>
+        /// 资源的根目录
+        /// </summary>
+        static public string ResourceRoot
+        {
+            get
+            {
+                 return Application.dataPath+"/Resource/Runtime"; 
+            }
+        }
     }
 }
