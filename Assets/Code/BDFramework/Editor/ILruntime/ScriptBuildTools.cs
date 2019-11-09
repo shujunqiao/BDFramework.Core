@@ -118,11 +118,11 @@ public class ScriptBuildTools
 
         if (mode == BuildMode.Release)
         {
-            Build(hotfixCs, dllFiles, outHotfixPath);
+            Build(baseCs,hotfixCs, dllFiles, outHotfixPath);
         }
         else if (mode == BuildMode.Debug)
         {
-            Build(hotfixCs, dllFiles, outHotfixPath,true);
+            Build(baseCs,hotfixCs, dllFiles, outHotfixPath,true);
         }
     }
 
@@ -133,17 +133,27 @@ public class ScriptBuildTools
     /// <param name="outBaseDllPath"></param>
     /// <param name="outHotfixDllPath"></param>
     static public void Build(
+        List<string>  baseCs,
         List<string> hotfixCS,
         List<string> dllFiles,
         string outHotfixDllPath,
         bool isdebug=false)
     {
-
-        EditorUtility.DisplayProgressBar("编译服务", "[2/2]开始编译hotfix.dll", 0.5f);
-        //将base.dll加入 
-        var mainDllPath = BApplication.projroot + "/Library/ScriptAssemblies/Assembly-CSharp.dll";
-        mainDllPath.Replace("/", "\\");
-        dllFiles.Add(mainDllPath);
+        var baseDll = outHotfixDllPath.Replace("hotfix.dll", "Assembly-CSharp.dll");
+        EditorUtility.DisplayProgressBar("编译服务", "[1/2]base.dll", 0.5f);
+        try
+        {
+            BuildByRoslyn(dllFiles.ToArray(), baseCs.ToArray(), baseDll,false);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
+            EditorUtility.ClearProgressBar();
+            return;
+        }
+        EditorUtility.DisplayProgressBar("编译服务", "[2/2]开始编译hotfix.dll", 0.7f);
+        //将base.dll加入
+        dllFiles.Add(baseDll);
         try
         {
             BuildByRoslyn(dllFiles.ToArray(), hotfixCS.ToArray(), outHotfixDllPath,isdebug);
@@ -158,6 +168,7 @@ public class ScriptBuildTools
         EditorUtility.DisplayProgressBar("编译服务", "清理临时文件", 0.9f);
         //删除临时目录
         //删除base.dll
+        File.Delete(baseDll);
         EditorUtility.ClearProgressBar();
         AssetDatabase.Refresh();
     }
@@ -216,7 +227,7 @@ public class ScriptBuildTools
         //添加语法树
         //宏解析
         var Symbols = define.Split(';');
-        List<SyntaxTree> codes = new List<SyntaxTree>();
+        List< Microsoft.CodeAnalysis.SyntaxTree> codes = new List< Microsoft.CodeAnalysis.SyntaxTree>();
         var opa = new CSharpParseOptions(LanguageVersion.Latest, preprocessorSymbols: Symbols);
         foreach (var cs in codefiles)
         {
