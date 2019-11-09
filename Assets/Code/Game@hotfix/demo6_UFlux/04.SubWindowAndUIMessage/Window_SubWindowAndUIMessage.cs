@@ -62,7 +62,7 @@ namespace BDFramework.UFlux.UFluxTest004
 
             btn_SndMessage.onClick.AddListener(() =>
             {
-                var msg = new UIMessage(WinMsg.test001, "我是一个测试消息");
+                var msg = new UIMessageData(WinMsg.test001, "我是一个测试消息");
 
                 UIManager.Inst.SendMessage(UFluxWindowEnum.Test004, msg);
                 
@@ -71,7 +71,7 @@ namespace BDFramework.UFlux.UFluxTest004
 
 
         [UIMessage((int) WinMsg.test001)]
-        private void TestMessage(UIMessage msg)
+        private void TestMessage(UIMessageData msg)
         {
             Content.text = "父窗口收到消息:" + msg.GetData<string>();
         }

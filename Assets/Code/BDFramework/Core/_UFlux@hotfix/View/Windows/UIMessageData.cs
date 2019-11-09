@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace BDFramework.UFlux
 {
-    public class UIMessage
+    public class UIMessageData
     {
 
         /// <summary>
@@ -17,7 +17,7 @@ namespace BDFramework.UFlux
         /// </summary>
         /// <param name="name"></param>
         /// <param name="obj"></param>
-        public UIMessage(Enum name, object obj)
+        public UIMessageData(Enum name, object obj)
         {
             this.Name = name;
             this.Data = obj;

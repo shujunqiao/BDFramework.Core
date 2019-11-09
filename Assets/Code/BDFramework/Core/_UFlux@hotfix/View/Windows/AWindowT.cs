@@ -41,7 +41,7 @@ namespace BDFramework.UFlux
         /// <summary>
         /// Action 回调表
         /// </summary>
-        protected Dictionary<int, Action<UIMessage>> callbackMap = new Dictionary<int, Action<UIMessage>>();
+        protected Dictionary<int, Action<UIMessageData>> callbackMap = new Dictionary<int, Action<UIMessageData>>();
 
         /// <summary>
         /// 注册回调
@@ -57,7 +57,7 @@ namespace BDFramework.UFlux
                 if (attrs.Length > 0)
                 {
                     var _attr = attrs[0] as UIMessageAttribute;
-                    var action = Delegate.CreateDelegate(typeof(Action<UIMessage>), this, methodInfo) as Action<UIMessage>;
+                    var action = Delegate.CreateDelegate(typeof(Action<UIMessageData>), this, methodInfo) as Action<UIMessageData>;
                     if (action != null)
                     {
                         callbackMap[_attr.MessageName] = action;
@@ -74,15 +74,15 @@ namespace BDFramework.UFlux
         /// <summary>
         /// 更新UI使用的数据
         /// </summary>
-        /// <param name="message">数据</param>
-        public void SendMessage(UIMessage message)
+        /// <param name="messageData">数据</param>
+        public void SendMessage(UIMessageData messageData)
         {
-            Action<UIMessage> action = null;
-            var key = message.Name.GetHashCode();
+            Action<UIMessageData> action = null;
+            var key = messageData.Name.GetHashCode();
             callbackMap.TryGetValue(key, out action);
             if (action != null)
             {
-                action(message);
+                action(messageData);
             }
             //所有的消息会被派发给子窗口
             if (subWindowsMap.Count > 0)
@@ -92,7 +92,7 @@ namespace BDFramework.UFlux
                     var uimassage = value as IUIMessage;
                     if (uimassage != null)
                     {
-                        uimassage.SendMessage(message);
+                        uimassage.SendMessage(messageData);
                     }
                 }
             }

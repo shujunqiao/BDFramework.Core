@@ -2,6 +2,6 @@
 {
     public interface IUIMessage
     {
-        void SendMessage(UIMessage message);
+        void SendMessage(UIMessageData messageData);
     }
 }

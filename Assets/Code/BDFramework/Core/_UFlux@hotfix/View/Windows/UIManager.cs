@@ -169,7 +169,7 @@ namespace BDFramework.UFlux
         {
             // return;
             //检查ui数据缓存
-            List<UIMessage> cacheList = null;
+            List<UIMessageData> cacheList = null;
             uiDataCacheMap.TryGetValue(uiIndex, out cacheList);
             if (cacheList != null)
             {
@@ -303,34 +303,34 @@ namespace BDFramework.UFlux
             }
         }
 
-        private Dictionary<int, List<UIMessage>> uiDataCacheMap = new Dictionary<int, List<UIMessage>>();
+        private Dictionary<int, List<UIMessageData>> uiDataCacheMap = new Dictionary<int, List<UIMessageData>>();
 
         /// <summary>
         /// 外部推送ui数据
         /// </summary>
         /// <param name="uiIndex"></param>
-        /// <param name="message"></param>
-        public void SendMessage(Enum index, UIMessage message)
+        /// <param name="messageData"></param>
+        public void SendMessage(Enum index, UIMessageData messageData)
         {
             var uiIndex = index.GetHashCode();
             if (windowMap.ContainsKey(uiIndex))
             {
                 var ui = windowMap[uiIndex];
-                ui.SendMessage(message);
+                ui.SendMessage(messageData);
                 return;
             }
 
             //存入缓存
-            List<UIMessage> list = null;
+            List<UIMessageData> list = null;
             uiDataCacheMap.TryGetValue(uiIndex, out list);
             //
             if (list == null)
             {
-                list = new List<UIMessage>();
+                list = new List<UIMessageData>();
                 uiDataCacheMap[uiIndex] = list;
             }
 
-            list.Add(message);
+            list.Add(messageData);
         }
     }
 }
