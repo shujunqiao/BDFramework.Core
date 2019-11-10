@@ -65,19 +65,5 @@ public class Window_CustomLogicBind : AWindow<PropsDemo003Window>
             this.SetProps();
         });
     }
-
-    public override void Open()
-    {
-        base.Open();
-    }
-
-    public override void Close()
-    {
-        base.Close();
-    }
-
-    public override void Destroy()
-    {
-        base.Destroy();
-    }
+    
 }

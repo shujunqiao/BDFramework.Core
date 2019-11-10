@@ -8,13 +8,13 @@ namespace Code.Game.demo6_UFlux._05.NodeHelper
     public class PropsDemo003Window : PropsBase
     {   
         /// <summary>
-        /// 不用标签自动赋值，list
+        /// 绑定Equipments 所有子元素
         /// </summary>
         [TransformPath("Equipments")]
         public List<PropsDemo003Item> StarItems = new List<PropsDemo003Item>();
         
         /// <summary>
-        /// 不用标签自动赋值，props
+        /// 绑定OneNodeChange节点为PropsDemo003Item
         /// </summary>
         [TransformPath("OneNodeChange")]
         public PropsDemo003Item OneNodeChange;

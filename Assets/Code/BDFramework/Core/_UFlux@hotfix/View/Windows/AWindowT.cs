@@ -128,6 +128,24 @@ namespace BDFramework.UFlux
             return (T1)win;
         }
 
+        /// <summary>
+        /// 获取窗口
+        /// </summary>
+        /// <param name="enum"></param>
+        /// <typeparam name="T1"></typeparam>
+        /// <returns></returns>
+        public T1 GetSubWindow<T1>() where T1 : class
+        {
+            foreach (var value in subWindowsMap.Values)
+            {
+                if (value is T1)
+                {
+                    return (T1) value;
+                }
+            }
+
+            return null;
+        }
         #endregion
     }
 }
