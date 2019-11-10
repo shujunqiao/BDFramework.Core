@@ -16,7 +16,7 @@ namespace BDFramework.UFlux.UFluxTest004
         [TransformPath("Content")]
         private Text textContent;
         
-        [UIMessage((int)WinMsg.test001)]
+        [UIMessage((int)WinMsg.testMsg)]
         private void TestMessage(UIMessageData msg)
         {
             textContent.text = msg.GetData<string>();

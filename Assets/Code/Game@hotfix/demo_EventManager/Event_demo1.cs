@@ -1,4 +1,4 @@
-namespace Code.Game.demo_Manager_AutoRegister_And_Event
+namespace Code.Game.demo_EventManager
 {
     
     [DemoEvent((int)DemoEventEnum.TestEvent2)]

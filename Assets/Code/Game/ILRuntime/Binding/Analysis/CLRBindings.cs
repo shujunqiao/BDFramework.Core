@@ -127,7 +127,6 @@ namespace ILRuntime.Runtime.Generated
             System_Collections_Generic_List_1_Enum_Binding.Register(app);
             System_Collections_Generic_List_1_Enum_Binding_Enumerator_Binding.Register(app);
             UnityEngine_Mathf_Binding.Register(app);
-            UnityEngine_Color_Binding.Register(app);
             System_Collections_Generic_Dictionary_2_Type_Object_Binding.Register(app);
             System_Collections_Generic_Dictionary_2_Int32_ILTypeInstance_Binding_Enumerator_Binding.Register(app);
             System_Collections_Generic_KeyValuePair_2_Int32_ILTypeInstance_Binding.Register(app);
@@ -143,9 +142,6 @@ namespace ILRuntime.Runtime.Generated
             System_Collections_Generic_Dictionary_2_Enum_ILTypeInstance_Binding.Register(app);
             System_Collections_Generic_Dictionary_2_Enum_ILTypeInstance_Binding_ValueCollection_Binding.Register(app);
             System_Collections_Generic_Dictionary_2_Enum_ILTypeInstance_Binding_ValueCollection_Binding_Enumerator_Binding.Register(app);
-            System_Exception_Binding.Register(app);
-            System_Collections_Generic_List_1_Action_1_ILTypeInstance_Binding.Register(app);
-            System_Collections_Generic_List_1_Action_1_ILTypeInstance_Binding_Enumerator_Binding.Register(app);
 
             ILRuntime.CLR.TypeSystem.CLRType __clrType = null;
             __clrType = (ILRuntime.CLR.TypeSystem.CLRType)app.GetType (typeof(UnityEngine.Vector2));

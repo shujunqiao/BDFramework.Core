@@ -1,6 +1,6 @@
 using BDFramework.Mgr;
 
-namespace Code.Game.demo_Manager_AutoRegister_And_Event
+namespace Code.Game.demo_EventManager
 {
     public class DemoEventAttribute :  ManagerAtrribute
     {

@@ -394,11 +394,6 @@ namespace BDFramework.ResourceMgr
                     var p  = FindAsset(realPath);
                     var ab = AssetBundle.LoadFromFile(p);
 
-                    foreach (var n in  ab.GetAllAssetNames())
-                    {
-                        Debug.Log(n);
-                    }
-                
                     //添加
                     AddAssetBundle(realPath, ab);
                 }

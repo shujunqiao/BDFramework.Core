@@ -11,12 +11,12 @@ namespace BDFramework.UFlux.UFluxTest004
 {
     public enum WinMsg
     {
-        test001 = 0,
+        testMsg = 0,
     }
 
     public enum SubWindow
     {
-        test001
+        testSubWindows001
     }
 
     [UI((int) UFluxWindowEnum.Test004, "Windows/UFlux/demo004/Window_SubWindowAndUIMessage")]
@@ -48,7 +48,7 @@ namespace BDFramework.UFlux.UFluxTest004
 
             //注册子窗口
             var trans = this.Transform.Find("SubWindow");
-            RegisterSubWindow(SubWindow.test001, new SubWindow_Demo004(trans));
+            RegisterSubWindow(SubWindow.testSubWindows001, new SubWindow_Demo004(trans));
 
             //点击测试 
             btn_OpenSubWin.onClick.AddListener(() =>
@@ -63,7 +63,7 @@ namespace BDFramework.UFlux.UFluxTest004
 
             btn_SndMessage.onClick.AddListener(() =>
             {
-                var msg = new UIMessageData(WinMsg.test001, "我是一个测试消息");
+                var msg = new UIMessageData(WinMsg.testMsg, "我是一个测试消息");
 
                 UIManager.Inst.SendMessage(UFluxWindowEnum.Test004, msg);
                 
@@ -71,7 +71,7 @@ namespace BDFramework.UFlux.UFluxTest004
         }
 
 
-        [UIMessage((int) WinMsg.test001)]
+        [UIMessage((int) WinMsg.testMsg)]
         private void TestMessage(UIMessageData msg)
         {
             Content.text = "父窗口收到消息:" + msg.GetData<string>();
