@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using BDFramework.Mgr;
 using BDFramework.UFlux.View.Props;
+using LitJson;
 using Mono.Cecil;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -61,13 +62,16 @@ namespace BDFramework.UFlux
             {
                 map = TransformStateBind(t, aState);
                 componentValueCacheMap[key] = map;
+               
             }
 
             while (true)
             {
                 var field = aState.GetPropertyChange();
+              
                 if (field == null)
                     break;
+   
                 //开始
                 ComponentValueCahce cvc = null;
                 if (map.TryGetValue(field, out cvc))
@@ -133,9 +137,10 @@ namespace BDFramework.UFlux
                         var attr = attrs[0] as ComponentValueBind;
                         if (attr != null)
                         {
-                            if (attr.Type.IsSubclassOf(typeof(UIBehaviour)))
+                            var ui  = transform.GetComponent(attr.Type) as UIBehaviour;
+                            if (ui!=null)
                             {
-                                cvc.UIBehaviour = transform.GetComponent(attr.Type) as UIBehaviour;
+                                cvc.UIBehaviour = ui;
                             }
                             else
                             {
